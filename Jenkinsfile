@@ -1,29 +1,29 @@
 pipeline {
-    agent any  // This means it will run on any available agent
+    agent any  // Run on any available agent
+
+    tools {
+        maven 'Maven 3'  // Name of your Maven installation in Jenkins
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from your repository
-                checkout 'https://github.com/L-TeA/authorization-server.git'
+                // Checkout from the Git repository
+                git 'https://github.com/L-TeA/authorization-server.git'
             }
         }
 
         stage('Clean and Build') {
             steps {
-                script {
-                    // Clean and build the Maven project
-                    sh 'mvn clean install'  // Run Maven command to clean and build the project
-                }
+                // Run the Maven clean and install commands
+                sh 'mvn clean install'
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    // Run tests if you have them configured in your Maven project
-                    sh 'mvn test'
-                }
+                // Run the Maven test command
+                sh 'mvn test'
             }
         }
     }
