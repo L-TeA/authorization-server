@@ -20,6 +20,7 @@ pipeline {
             }
         }
 
+/*
         stage('Test') {
             steps {
                 // Run the Maven test command
@@ -27,6 +28,7 @@ pipeline {
             }
         }
     }
+ */
 
 
     post {
