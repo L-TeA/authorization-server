@@ -8,7 +8,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'blastza/authorization-server'  // Replace with your Docker image name
         DOCKER_TAG = 'latest'  // Use 'latest', a version tag, or a Jenkins variable like ${BUILD_NUMBER} for versioning
-        DOCKER_REGISTRY = 'https://hub.docker.com/repositories/blastza'  // Docker Hub registry URL
+        DOCKER_REGISTRY = 'https://index.docker.io/v1/'  // Docker Hub registry URL
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'  // Jenkins credentials ID for Docker registry login
     }
 
@@ -38,8 +38,13 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry("${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
-                        sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
+                                                     usernameVariable: 'DOCKER_USER',
+                                                     passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin ${DOCKER_REGISTRY}
+                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        """
                     }
                 }
             }
