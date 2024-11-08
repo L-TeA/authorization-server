@@ -20,15 +20,13 @@ pipeline {
             }
         }
 
-/*
-        stage('Test') {
+/*         stage('Test') {
             steps {
                 // Run the Maven test command
                 sh 'mvn test'
             }
-        }
+        } */
     }
- */
 
 
     post {
