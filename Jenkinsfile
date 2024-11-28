@@ -2,8 +2,8 @@ pipeline {
     agent any  // Run on any available agent
 
  /*    tools {
-        maven 'Maven 3'  // Name of your Maven installation in Jenkins */
-    }
+        maven 'Maven 3'  // Name of your Maven installation in Jenkins
+    }*/
 
     environment {
         DOCKER_IMAGE = 'blastza/authorization-server'  // Replace with your Docker image name
@@ -57,21 +57,6 @@ pipeline {
                 }
             }
         }
-
-/*         stage('Deploy Image To EC2') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
-                                                     usernameVariable: 'DOCKER_USER',
-                                                     passwordVariable: 'DOCKER_PASS')]) {
-                        sh """
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin ${DOCKER_REGISTRY}
-                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
-                        """
-                    }
-                }
-            }
-        } */
 
     post {
         success {
