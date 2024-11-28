@@ -1,9 +1,9 @@
 pipeline {
     agent any  // Run on any available agent
 
- /*    tools {
+    /* tools {
         maven 'Maven 3'  // Name of your Maven installation in Jenkins
-    }*/
+    } */
 
     environment {
         DOCKER_IMAGE = 'blastza/authorization-server'  // Replace with your Docker image name
@@ -57,6 +57,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         success {
