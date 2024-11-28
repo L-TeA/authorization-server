@@ -58,21 +58,6 @@ pipeline {
             }
         }
 
-/*         stage('Deploy Image To EC2') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
-                                                     usernameVariable: 'DOCKER_USER',
-                                                     passwordVariable: 'DOCKER_PASS')]) {
-                        sh """
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin ${DOCKER_REGISTRY}
-                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
-                        """
-                    }
-                }
-            }
-        } */
-
     post {
         success {
             echo 'Build and tests successful!'
