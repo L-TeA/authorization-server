@@ -5,6 +5,7 @@ pipeline {
         maven 'Maven 3'  // Name of your Maven installation in Jenkins
     }
 
+
     environment {
         DOCKER_IMAGE = 'blastza/authorization-server'  // Replace with your Docker image name
         DOCKER_TAG = 'latest'  // Use 'latest', a version tag, or a Jenkins variable like ${BUILD_NUMBER} for versioning
