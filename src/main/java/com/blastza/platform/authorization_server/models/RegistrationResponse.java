@@ -1,13 +1,11 @@
 package com.blastza.platform.authorization_server.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class RegistrationResponse {
     private String token;
     private String message;
