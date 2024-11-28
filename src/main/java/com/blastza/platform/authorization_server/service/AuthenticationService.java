@@ -28,13 +28,10 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final EmailService emailService;
+    //private final EmailService emailService;
 
     public RegistrationResponse register(RegisterRequest request) {
-
-        if (userRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new UserAlreadyExistsException("This email already exists on our system");
-        }
+        validateEmailNotTaken(request.getEmail());
 
         var user = User.builder()
                 .firstname(request.getFirstname())
@@ -46,7 +43,7 @@ public class AuthenticationService {
                 .isVerified(false)
                 .build();
         userRepository.save(user);
-        emailService.sendVerificationEmail(user.getEmail(), user.getVerificationToken());
+       // emailService.sendVerificationEmail(user.getEmail(), user.getVerificationToken());
         var jwtToken = jwtService.generateToken(user);
 
         return RegistrationResponse.builder()
@@ -70,7 +67,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public ResponseEntity<?> updateUserVerificationStatus(String token) {
+/*    public ResponseEntity<?> updateUserVerificationStatus(String token) {
         Optional<User> userOptional = userRepository.findByVerificationToken(token);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -80,9 +77,9 @@ public class AuthenticationService {
             return ResponseEntity.ok("Email verified successfully.");
         }
         return ResponseEntity.badRequest().body("Invalid token.");
-    }
+    }*/
 
-    public ResponseEntity<?> resendEmailVerification(String email) {
+/*    public ResponseEntity<?> resendEmailVerification(String email) {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent() && !userOptional.get().isVerified()) {
             User user = userOptional.get();
@@ -92,5 +89,11 @@ public class AuthenticationService {
             return ResponseEntity.ok("Verification email resent.");
         }
         return ResponseEntity.badRequest().body("User not found or already verified.");
+    }*/
+
+    private void validateEmailNotTaken(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new UserAlreadyExistsException("This email already exists on our system");
+        }
     }
 }

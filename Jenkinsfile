@@ -1,8 +1,8 @@
 pipeline {
     agent any  // Run on any available agent
 
-    tools {
-        maven 'Maven 3'  // Name of your Maven installation in Jenkins
+ /*    tools {
+        maven 'Maven 3'  // Name of your Maven installation in Jenkins */
     }
 
     environment {
@@ -24,6 +24,14 @@ pipeline {
             steps {
                 // Run the Maven clean and install commands
                 sh 'mvn clean install -DskipTests'
+            }
+        }
+
+        stage('Run Unit Test') {
+            steps {
+                // Run the Maven test commands
+                sh 'mvn clean test'
+                sh 'mvn jacoco:report'
             }
         }
 
@@ -50,16 +58,20 @@ pipeline {
             }
         }
 
-
-
-/*         stage('Test') {
+/*         stage('Deploy Image To EC2') {
             steps {
-                // Run the Maven test command
-                sh 'mvn test'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
+                                                     usernameVariable: 'DOCKER_USER',
+                                                     passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin ${DOCKER_REGISTRY}
+                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        """
+                    }
+                }
             }
         } */
-    }
-
 
     post {
         success {

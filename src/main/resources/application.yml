@@ -7,18 +7,18 @@ spring:
 
 # DataSource Configuration
   datasource:
-    url: jdbc:postgresql://auth-server.cpsiaygcukgh.af-south-1.rds.amazonaws.com:5432/postgres
+    url: jdbc:postgresql://13.244.150.146:5432/authserverdb
 
     #url: jdbc:postgresql://localhost:5432/authserverdb
 
-    username: postgres
+    username: ldamuleli
     password: Lodav72#
     driver-class-name: org.postgresql.Driver
 
 # JPA/Hibernate Configuration
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -35,3 +35,9 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
       mail.debug: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
